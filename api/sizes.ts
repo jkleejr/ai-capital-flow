@@ -1,8 +1,8 @@
 import { NODES } from '../src/data/nodes'
 
-// Daily-refreshed node sizing source. A Vercel Cron (see vercel.json) hits this
-// once a day; the response is also edge-cached for 24h so live visitors are
-// served the cached snapshot instead of waiting on ~35 upstream calls.
+// Node sizing source, refreshed every 2 days. A Vercel Cron (see vercel.json)
+// hits this on that cadence; the response is also edge-cached for 48h so live
+// visitors are served the cached snapshot instead of waiting on ~35 upstream calls.
 //
 // Sizes come from each public company's market capitalization (Finnhub free
 // tier, US-listed tickers). Private labs and foreign-listed names have no
@@ -32,8 +32,8 @@ export default async function handler(_req: unknown, res: ResLike) {
     )
   }
 
-  // Cache at the CDN for a day; serve stale briefly while the next refresh runs.
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=86400')
+  // Cache at the CDN for 2 days; serve stale briefly while the next refresh runs.
+  res.setHeader('Cache-Control', 's-maxage=172800, stale-while-revalidate=172800')
   res.status(200).json({ updatedAt: new Date().toISOString(), marketCaps })
 }
 
