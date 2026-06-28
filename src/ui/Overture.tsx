@@ -39,7 +39,7 @@ export function Overture() {
     >
       <div className="overture-inner">
         <div className="overture-eyebrow">2026 · the AI buildout</div>
-        <h1 className="overture-title">AI CAPITAL FLOW</h1>
+        <h1 className="overture-title">ai capital flow</h1>
         <p className="overture-thesis">
           Hundreds of billions are circulating between the companies building
           artificial intelligence — chips, compute, power, memory, optics.

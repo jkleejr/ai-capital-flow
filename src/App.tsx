@@ -1,15 +1,28 @@
+import { useEffect, useState } from 'react'
 import ForceGraph from './graph/ForceGraph'
 import { SECTORS, SECTOR_ORDER } from './data/sectors'
 import { Overture } from './ui/Overture'
+import { InfoPanel } from './ui/InfoPanel'
 
 export default function App() {
+  const [infoOpen, setInfoOpen] = useState(false)
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'i' || e.key === 'I') setInfoOpen((v) => !v)
+      else if (e.key === 'Escape') setInfoOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   return (
     <div className="app">
       <ForceGraph />
 
       <header className="hud hud-top reveal" style={{ animationDelay: '0.2s' }}>
         <div className="title">
-          <span className="title-main">AI CAPITAL FLOW</span>
+          <span className="title-main">ai capital flow</span>
           <span className="title-sub">where the money moves through the AI buildout</span>
         </div>
       </header>
@@ -24,11 +37,14 @@ export default function App() {
       </aside>
 
       <footer className="hud hud-bottom reveal" style={{ animationDelay: '0.6s' }}>
-        <span className="foot-hint">
-          Drag nodes to explore · click for detail · arrows show direction of capital
-        </span>
-        <span className="disclaimer">Illustrative — not investment advice · mid-2026</span>
+        {!infoOpen && (
+          <button className="info-trigger" onClick={() => setInfoOpen(true)}>
+            press <kbd>i</kbd> for information
+          </button>
+        )}
       </footer>
+
+      {infoOpen && <InfoPanel onClose={() => setInfoOpen(false)} />}
 
       <Overture />
     </div>

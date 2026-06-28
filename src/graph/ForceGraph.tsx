@@ -474,10 +474,10 @@ export default function ForceGraph() {
 
       <div className="lens-toggle" role="group" aria-label="View lens">
         <button className={lens === 'structure' ? 'on' : ''} onClick={() => setLens('structure')}>
-          Structure
+          structure
         </button>
         <button className={lens === 'momentum' ? 'on' : ''} onClick={() => setLens('momentum')}>
-          Momentum
+          momentum
         </button>
       </div>
 
