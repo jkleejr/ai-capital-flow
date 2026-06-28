@@ -1,42 +1,40 @@
 import { useEffect, useState } from 'react'
 
 /**
- * Opening overture: a brief title card stating the thesis, which lifts away to
- * reveal the graph as the nodes fly out and settle. Respects reduced-motion
- * (renders nothing) and is dismissable by click / any key / after the timed run.
+ * Opening overture: a title card stating the thesis. It plays an entrance, then
+ * holds on screen until the user dismisses it (click anywhere, or any key) — it
+ * does NOT auto-dismiss. On dismiss it fades out to reveal the graph.
  */
 export function Overture() {
-  const reduce =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [phase, setPhase] = useState<'in' | 'hold' | 'out' | 'done'>('in')
 
-  const [phase, setPhase] = useState<'in' | 'hold' | 'out' | 'done'>(reduce ? 'done' : 'in')
-
+  // play the entrance, then hold indefinitely (no auto-dismiss timer)
   useEffect(() => {
-    if (reduce) return
-    const timers = [
-      window.setTimeout(() => setPhase('hold'), 60),
-      window.setTimeout(() => setPhase('out'), 2600),
-      window.setTimeout(() => setPhase('done'), 3500),
-    ]
-    return () => timers.forEach(clearTimeout)
-  }, [reduce])
-
-  useEffect(() => {
-    if (phase === 'done') return
-    const skip = () => setPhase('out')
-    window.addEventListener('keydown', skip)
-    return () => window.removeEventListener('keydown', skip)
+    if (phase !== 'in') return
+    const t = window.setTimeout(() => setPhase('hold'), 60)
+    return () => clearTimeout(t)
   }, [phase])
+
+  // dismiss on any key while the card is showing
+  useEffect(() => {
+    if (phase === 'out' || phase === 'done') return
+    const onKey = () => dismiss()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [phase])
+
+  function dismiss() {
+    setPhase((p) => {
+      if (p === 'out' || p === 'done') return p
+      window.setTimeout(() => setPhase('done'), 900)
+      return 'out'
+    })
+  }
 
   if (phase === 'done') return null
 
   return (
-    <div
-      className={`overture overture-${phase}`}
-      onClick={() => setPhase('out')}
-      aria-hidden="true"
-    >
+    <div className={`overture overture-${phase}`} onClick={dismiss} aria-hidden="true">
       <div className="overture-inner">
         <div className="overture-eyebrow">2026 · the AI buildout</div>
         <h1 className="overture-title">ai capital flow</h1>
@@ -46,7 +44,7 @@ export function Overture() {
           <br />
           Watch where the money moves.
         </p>
-        <div className="overture-hint">click to enter</div>
+        <div className="overture-hint">click anywhere to enter</div>
       </div>
     </div>
   )
