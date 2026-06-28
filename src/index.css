@@ -54,10 +54,13 @@ body,
 .graph-wrap {
   position: absolute;
   inset: 0;
+  overscroll-behavior: none;
 }
 
 .graph-wrap canvas {
   display: block;
+  /* let the canvas own touch gestures so dragging a node never scrolls the page */
+  touch-action: none;
 }
 
 /* ── HUD overlays ─────────────────────────────────────────── */

@@ -28,6 +28,8 @@ export interface RawNode {
   ticker?: string
   sector: SectorId
   note?: string
+  /** citation URLs backing this node (provenance only; not rendered) */
+  sources?: string[]
 }
 
 export interface RawEdge {
@@ -46,6 +48,8 @@ export interface RawEdge {
   basis?: 'deal' | 'annual'
   /** true when `usd` is a rough illustrative estimate rather than a sourced figure */
   approx?: boolean
+  /** citation URLs backing this edge (provenance only; not rendered) */
+  sources?: string[]
 }
 
 /** A node after the simulation/flow pass adds geometry + computed size. */

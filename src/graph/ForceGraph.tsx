@@ -6,13 +6,15 @@ import {
   forceSimulation,
   forceX,
   forceY,
+  type ForceX,
+  type ForceY,
   type Simulation,
 } from 'd3-force'
 import { NODES } from '../data/nodes'
 import { EDGES } from '../data/edges'
 import { SECTORS } from '../data/sectors'
 import type { RawEdge, SectorId, SimNode } from '../data/types'
-import { buildFlow } from './flow'
+import { radiusFor, loadLiveSizes, sizesUpdatedAt } from './sizing'
 import { getMomentum, heatColor, loadLiveMomentum } from './momentum'
 import { NodePanel } from '../ui/NodePanel'
 
@@ -37,7 +39,6 @@ interface Star {
 }
 
 // ── persistent sim state ───────────────────────────────────────────
-const { radiusFor } = buildFlow(NODES, EDGES)
 const sim: SimNode[] = NODES.map((n) => ({ ...n, x: 0, y: 0, flow: 0, r: radiusFor(n.id) }))
 const pulse = new Map(sim.map((n, i) => [n.id, (i * 2.399963) % TAU]))
 const byId = new Map(sim.map((n) => [n.id, n]))
@@ -112,6 +113,7 @@ export default function ForceGraph() {
   const [lens, setLens] = useState<Lens>('structure')
   const [hover, setHover] = useState<{ id: string; x: number; y: number } | null>(null)
   const [live, setLive] = useState(false)
+  const [sizesAt, setSizesAt] = useState<string | null>(null)
 
   const hoverRef = useRef<string | null>(null)
   const selectedRef = useRef<string | null>(null)
@@ -138,6 +140,12 @@ export default function ForceGraph() {
     let downX = 0
     let downY = 0
     const idleAlpha = reduceMotion ? 0 : 0.02
+
+    // startup spread-in ramp: ease the position force up so the graph blooms
+    // gently into place instead of snapping out from the center
+    let xForce: ForceX<SimNode> | null = null
+    let yForce: ForceY<SimNode> | null = null
+    let simStart = 0
 
     function sizeCanvas() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -168,6 +176,9 @@ export default function ForceGraph() {
         n.y = cy + (Math.random() - 0.5) * 40
         n.vx = 0
         n.vy = 0
+        // clear any drag-pins so a fresh load / resize re-lays-out from scratch
+        n.fx = null
+        n.fy = null
       }
       simulation?.stop()
       simulation = forceSimulation(sim)
@@ -183,23 +194,33 @@ export default function ForceGraph() {
         .alpha(1)
         .alphaTarget(reduceMotion ? 0 : 0.02)
         .stop()
+      xForce = simulation.force('x') as ForceX<SimNode>
+      yForce = simulation.force('y') as ForceY<SimNode>
       last = performance.now()
+      simStart = reduceMotion ? 0 : last // 0 disables the ramp (instant for reduced-motion)
       cancelAnimationFrame(raf)
       loop(last)
     }
 
-    function nodeAt(px: number, py: number): SimNode | null {
+    function nodeAt(px: number, py: number, pad = 6): SimNode | null {
+      let best: SimNode | null = null
+      let bestD = Infinity
       for (const n of sim) {
-        if (Math.hypot(n.x - px, n.y - py) <= n.r + 6) return n
+        const d = Math.hypot(n.x - px, n.y - py)
+        if (d <= n.r + pad && d < bestD) {
+          best = n
+          bestD = d
+        }
       }
-      return null
+      return best
     }
 
     function onDown(e: PointerEvent) {
       const rect = canvas.getBoundingClientRect()
       const px = e.clientX - rect.left
       const py = e.clientY - rect.top
-      const n = nodeAt(px, py)
+      // fingers are larger and less precise than a mouse — widen the grab target on touch
+      const n = nodeAt(px, py, e.pointerType === 'touch' ? 22 : 6)
       if (!n) return
       dragNode = n
       dragMoved = false
@@ -243,11 +264,17 @@ export default function ForceGraph() {
         } catch {
           /* pointer may already be released */
         }
-        // release the pin → node springs back to its cluster (the physics payoff)
-        node.fx = null
-        node.fy = null
+        if (dragMoved) {
+          // keep the node pinned where it was dropped; it stays until a page refresh
+          node.fx = node.x
+          node.fy = node.y
+        } else {
+          // it was a click, not a drag → don't pin, just select
+          node.fx = null
+          node.fy = null
+          setSelected(node.id)
+        }
         simulation?.alphaTarget(idleAlpha)
-        if (!dragMoved) setSelected(node.id) // it was a click, not a drag
         return
       }
       // pointer-up with no node under it → deselect
@@ -261,9 +288,26 @@ export default function ForceGraph() {
       setHover(null)
     }
 
+    const SPREAD_MS = 2600 // how long the startup bloom takes
+
     function loop(now: number) {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
+      // ramp the position force from gentle → full over the first SPREAD_MS so
+      // the nodes ease outward instead of snapping into place on load
+      if (simStart && xForce && yForce) {
+        const k = (now - simStart) / SPREAD_MS
+        if (k >= 1) {
+          xForce.strength(0.16)
+          yForce.strength(0.16)
+          simStart = 0
+        } else {
+          const s = k * k * (3 - 2 * k) // smoothstep ease
+          const str = 0.16 * (0.18 + 0.82 * s)
+          xForce.strength(str)
+          yForce.strength(str)
+        }
+      }
       simulation?.tick()
       draw(now, dt)
       raf = requestAnimationFrame(loop)
@@ -369,16 +413,17 @@ export default function ForceGraph() {
         const color = colorFor(n)
         const ph = pulse.get(n.id)!
         const pr = n.r * (1 + (reduceMotion ? 0 : 0.05 * Math.sin(t * 1.4 + ph)))
-        let gAlpha = 0.5
-        if (momentumLens) gAlpha = 0.25 + 0.55 * Math.abs(getMomentum(n.id))
+        let gAlpha = 0.28
+        if (momentumLens) gAlpha = 0.14 + 0.34 * Math.abs(getMomentum(n.id))
         if (dim) gAlpha *= 0.18
-        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, pr * 2.7)
+        const gr = pr * 2.1
+        const glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, gr)
         glow.addColorStop(0, hexA(color, gAlpha))
-        glow.addColorStop(0.5, hexA(color, gAlpha * 0.2))
+        glow.addColorStop(0.5, hexA(color, gAlpha * 0.18))
         glow.addColorStop(1, hexA(color, 0))
         ctx.fillStyle = glow
         ctx.beginPath()
-        ctx.arc(n.x, n.y, pr * 2.7, 0, TAU)
+        ctx.arc(n.x, n.y, gr, 0, TAU)
         ctx.fill()
       }
       ctx.globalCompositeOperation = 'source-over'
@@ -430,6 +475,16 @@ export default function ForceGraph() {
     }
 
     start()
+
+    // pull daily market-cap sizing; on success re-size nodes and re-settle layout
+    let sizesCancelled = false
+    loadLiveSizes().then((ok) => {
+      if (sizesCancelled || !ok) return
+      for (const n of sim) n.r = radiusFor(n.id)
+      simulation?.alpha(0.6) // re-settle so collision spacing adapts to new radii
+      setSizesAt(sizesUpdatedAt())
+    })
+
     canvas.addEventListener('pointerdown', onDown)
     canvas.addEventListener('pointermove', onMove)
     canvas.addEventListener('pointerup', onUp)
@@ -438,6 +493,7 @@ export default function ForceGraph() {
     ro.observe(wrap)
 
     return () => {
+      sizesCancelled = true
       ro.disconnect()
       simulation?.stop()
       cancelAnimationFrame(raf)
@@ -472,6 +528,13 @@ export default function ForceGraph() {
         </div>
       )}
 
+      {lens === 'structure' && sizesAt && (
+        <div className="data-badge" title="Node sizes reflect market capitalization, refreshed daily.">
+          <span className="data-dot is-live" />
+          Sizes updated {formatDay(sizesAt)}
+        </div>
+      )}
+
       <div className="lens-toggle" role="group" aria-label="View lens">
         <button className={lens === 'structure' ? 'on' : ''} onClick={() => setLens('structure')}>
           structure
@@ -493,6 +556,13 @@ export default function ForceGraph() {
       {selected && <NodePanel id={selected} onClose={() => setSelected(null)} />}
     </div>
   )
+}
+
+function formatDay(iso: string) {
+  const d = new Date(iso)
+  return Number.isNaN(d.getTime())
+    ? ''
+    : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 }
 
 function hexA(hex: string, a: number) {

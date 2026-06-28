@@ -1,7 +1,7 @@
 import type { RawEdge, RawNode } from '../data/types'
 
-const R_MIN = 7
-const R_MAX = 36
+export const R_MIN = 7
+export const R_MAX = 36
 
 /**
  * Capital flow volume = sum of incident edge weights.
