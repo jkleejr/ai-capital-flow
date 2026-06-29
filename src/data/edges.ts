@@ -32,6 +32,7 @@ export const EDGES: RawEdge[] = [
   { from: 'anthropic', to: 'AMZN',  w: 4, type: 'compute', loop: true, usd: 100, basis: 'deal', label: '$100B+ / 5GW Trainium', sources: ['https://www.anthropic.com/news/anthropic-amazon-compute'] },
   { from: 'anthropic', to: 'GOOGL', w: 3, type: 'compute', loop: true, usd: 20,  basis: 'deal', approx: true, label: 'TPU up to 1M / 1GW+', sources: ['https://www.datacenterdynamics.com/en/news/google-and-anthropic-confirm-massive-1gw-cloud-deal-with-up-to-one-million-google-tpus/'] },
   { from: 'anthropic', to: 'MSFT',  w: 4, type: 'compute', loop: true, usd: 30,  basis: 'deal', label: 'Azure $30B', sources: ['https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships'] },
+  { from: 'anthropic', to: 'AVGO',  w: 3, type: 'asic', usd: 21, basis: 'deal', label: 'TPU racks (~1M v7p)', sources: ['https://www.cnbc.com/2025/12/11/broadcom-reveals-its-mystery-10-billion-customer-is-anthropic.html'] },
 
   // ── Group 3: hyperscaler/investor → AI-lab equity ─────────────────
   { from: 'MSFT', to: 'openai',    w: 5, type: 'equity', loop: true, usd: 13, basis: 'deal', label: '27% stake' },
