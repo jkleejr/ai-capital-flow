@@ -49,6 +49,10 @@ export const EDGES: RawEdge[] = [
   { from: 'ORCL', to: 'AMD', w: 3, type: 'chip', usd: 20, basis: 'deal', approx: true, label: '50k MI450 (Helios)', sources: ['https://www.oracle.com/news/announcement/ai-world-oracle-and-amd-expand-partnership-to-help-customers-achieve-next-generation-ai-scale-2025-10-14/', 'https://www.tomshardware.com/tech-industry/artificial-intelligence/amd-and-oracle-partner-to-deploy-50-000-mi450-instinct-gpus-in-new-ai-superclusters-deployment-of-expansion-set-for-2026-powered-by-amds-helios-rack'] },
   { from: 'GOOGL', to: 'AVGO', w: 3, type: 'asic', usd: 8, basis: 'annual', label: 'TPU silicon' },
   { from: 'META', to: 'AVGO', w: 2, type: 'asic', usd: 5, basis: 'annual', approx: true, label: 'custom ASIC' },
+  { from: 'META', to: 'AMD', w: 3, type: 'chip', usd: 50, basis: 'deal', approx: true, label: 'up to 6 GW MI450', sources: ['https://ir.amd.com/news-events/press-releases/detail/1201/amd-accelerates-pace-of-data-center-ai-innovation-and-leadership-with-expanded-amd-instinct-gpu-roadmap'] },
+  { from: 'MSFT', to: 'AMD', w: 2, type: 'chip', usd: 8, basis: 'annual', approx: true, label: 'MI350 (Azure)', sources: ['https://ir.amd.com/news-events/press-releases/detail/1201/amd-accelerates-pace-of-data-center-ai-innovation-and-leadership-with-expanded-amd-instinct-gpu-roadmap'] },
+  { from: 'MSFT', to: 'INTC', w: 2, type: 'foundry', usd: 3, basis: 'deal', approx: true, label: '18A (Maia 2)', sources: ['https://www.tomshardware.com/tech-industry/semiconductors/intel-foundry-secures-contract-to-build-microsofts-maia-2-next-gen-ai-processor-on-18a-18a-p-node-claims-report-could-be-first-step-in-ongoing-partnership'] },
+  { from: 'AMZN', to: 'INTC', w: 2, type: 'foundry', usd: 2, basis: 'deal', approx: true, label: '18A (AI Fabric)', sources: ['https://www.intc.com/news-events/press-releases/detail/1739/intel-foundry-gathers-customers-and-partners-outlines'] },
   { from: 'DELL', to: 'NVDA', w: 3, type: 'chip', usd: 12, basis: 'annual', approx: true, label: 'GPUs for AI servers ($43B backlog)' },
   { from: 'SMCI', to: 'NVDA', w: 2, type: 'chip', usd: 6,  basis: 'annual', approx: true, label: 'GPUs for AI servers', sources: ['https://www.supermicro.com/CaseStudies/Success_Story_xAI_Colossus_Cluster.pdf'] },
 
@@ -150,7 +154,11 @@ export const EDGES: RawEdge[] = [
   // ── Second-tier flows (CPU IP, custom silicon, REITs, grid gear) ──
   { from: 'NVDA', to: 'ARM',  w: 2, type: 'asic', usd: 0.5, basis: 'annual', approx: true, label: 'Grace CPU / Arm IP' },
   { from: 'AMZN', to: 'ARM',  w: 2, type: 'asic', usd: 0.4, basis: 'annual', approx: true, label: 'Graviton royalties' },
-  { from: 'AMZN', to: 'MRVL', w: 3, type: 'asic', usd: 3,   basis: 'annual', approx: true, label: 'custom silicon' },
+  { from: 'MSFT', to: 'ARM',  w: 2, type: 'asic', usd: 0.6, basis: 'annual', approx: true, label: 'Cobalt CPU royalties', sources: ['https://www.techpowerup.com/343062/microsoft-rolls-out-cobalt-200-cpu-with-132-arm-cores'] },
+  { from: 'GOOGL', to: 'ARM', w: 2, type: 'asic', usd: 0.6, basis: 'annual', approx: true, label: 'Axion CPU royalties', sources: ['https://www.techmonitor.ai/technology/google-joins-fellow-big-3-hyperscalers-in-launching-its-own-arm-based-cpu'] },
+  { from: 'AMZN', to: 'MRVL', w: 3, type: 'asic', usd: 3,   basis: 'annual', approx: true, label: 'Trainium co-design' },
+  { from: 'MSFT', to: 'MRVL', w: 2, type: 'asic', usd: 2,   basis: 'annual', approx: true, label: 'Maia custom silicon', sources: ['https://finance.yahoo.com/news/surging-ai-custom-silicon-demand-042534281.html'] },
+  { from: 'GOOGL', to: 'MRVL', w: 2, type: 'asic', usd: 1.5, basis: 'annual', approx: true, label: 'custom silicon', sources: ['https://finance.yahoo.com/news/surging-ai-custom-silicon-demand-042534281.html'] },
   { from: 'MRVL', to: 'TSM',  w: 2, type: 'foundry', usd: 2, basis: 'annual', approx: true, label: 'wafers' },
   { from: 'MSFT', to: 'DLR',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'colocation' },
   { from: 'ORCL', to: 'DLR',  w: 1, type: 'infra', usd: 1, basis: 'annual', approx: true, label: 'colocation' },
