@@ -28,6 +28,18 @@ export interface RawNode {
   ticker?: string
   sector: SectorId
   note?: string
+  /**
+   * Curated market capitalization in US$ billions (snapshot, ~mid-2026).
+   * Drives node sizing and the detail-panel readout. The live `/api/sizes`
+   * feed refreshes this for US-listed names; foreign listings (e.g. Samsung,
+   * SK Hynix) and offline/local use rely on this curated value.
+   */
+  marketCap?: number
+  /**
+   * For private labs with no public market cap: latest funding-round
+   * valuation in US$ billions. Used for sizing and labelled "valuation".
+   */
+  valuation?: number
   /** citation URLs backing this node (provenance only; not rendered) */
   sources?: string[]
 }

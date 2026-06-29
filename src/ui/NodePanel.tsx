@@ -2,6 +2,7 @@ import { NODES } from '../data/nodes'
 import { EDGES } from '../data/edges'
 import { SECTORS } from '../data/sectors'
 import { getMomentum } from '../graph/momentum'
+import { marketCapFor } from '../graph/sizing'
 import { edgeAmount, formatUsd, sumUsd } from '../data/format'
 import type { RawEdge } from '../data/types'
 
@@ -35,6 +36,8 @@ export function NodePanel({ id, onClose }: { id: string; onClose: () => void }) 
   const inUsd = sumUsd(inbound)
   const outUsd = sumUsd(outbound)
   const m = getMomentum(id)
+  const cap = marketCapFor(id)
+  const isPrivate = !node.ticker
   const isLoop = [...inbound, ...outbound].some((e) => e.loop)
 
   // sort flows by dollar magnitude, biggest first
@@ -62,6 +65,12 @@ export function NodePanel({ id, onClose }: { id: string; onClose: () => void }) 
       {node.note && <p className="panel-note">{node.note}</p>}
 
       <div className="panel-stats">
+        {cap != null && (
+          <div>
+            <span className="stat-num" style={{ color: '#e8edf6' }}>{formatUsd(cap)}</span>
+            <span className="stat-lbl">{isPrivate ? 'valuation' : 'market cap'}</span>
+          </div>
+        )}
         <div>
           <span className="stat-num" style={{ color: '#34d399' }}>{formatUsd(inUsd)}</span>
           <span className="stat-lbl">capital in ←</span>

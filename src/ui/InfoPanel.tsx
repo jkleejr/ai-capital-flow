@@ -22,8 +22,8 @@ export function InfoPanel({ onClose }: { onClose: () => void }) {
             <b>Drag</b> any node to move it — the nodes around it react.
           </li>
           <li>
-            <b>Click</b> a node for details — capital in, capital out, and every
-            flow with its dollar value.
+            <b>Click</b> a node for details — market cap, capital in, capital
+            out, and every flow with its dollar value.
           </li>
           <li>
             <b>Hover</b> a node to light up its flows — circular-financing loops
@@ -37,8 +37,8 @@ export function InfoPanel({ onClose }: { onClose: () => void }) {
         <ul className="info-list">
           <li>
             <b>structure</b> — the supply chain: who funds and buys from whom.
-            Node size = the total capital flowing through it; arrows and particles
-            show the direction money moves.
+            Node size = market capitalization (private labs sized by their latest
+            valuation); arrows and particles show the direction money moves.
           </li>
           <li>
             <b>momentum</b> — a market-heat overlay on the same map: green = money
