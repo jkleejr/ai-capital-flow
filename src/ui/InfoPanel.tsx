@@ -42,9 +42,7 @@ export function InfoPanel({ onClose }: { onClose: () => void }) {
           </li>
           <li>
             <b>momentum</b> — a market-heat overlay on the same map: green = money
-            flowing in, red = flowing out, brighter = stronger. Currently
-            illustrative; becomes live daily price movement once a market-data key
-            is connected.
+            flowing in, red = flowing out, brighter = stronger.
           </li>
         </ul>
       </div>
