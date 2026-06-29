@@ -33,9 +33,16 @@ export default async function handler(_req: unknown, res: ResLike) {
               `https://finnhub.io/api/v1/stock/profile2?symbol=${t}&token=${key}`,
             )
             if (!r.ok) return
-            const p = (await r.json()) as { marketCapitalization?: number }
-            // Finnhub returns market cap in $ millions.
-            if (typeof p.marketCapitalization === 'number' && p.marketCapitalization > 0) {
+            const p = (await r.json()) as { marketCapitalization?: number; currency?: string }
+            // Finnhub reports market cap in the company's REPORTING currency,
+            // not always USD — e.g. TSM in TWD (~30x), ASML in EUR. Only trust
+            // USD-denominated values; non-USD ADRs fall back to the curated cap
+            // (src/data/nodes.ts) rather than being mis-scaled. Value is $ millions.
+            if (
+              p.currency === 'USD' &&
+              typeof p.marketCapitalization === 'number' &&
+              p.marketCapitalization > 0
+            ) {
               marketCaps[t] = p.marketCapitalization
             }
           } catch {
