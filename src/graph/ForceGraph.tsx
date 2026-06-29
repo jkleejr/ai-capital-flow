@@ -531,7 +531,7 @@ export default function ForceGraph() {
       {lens === 'structure' && sizesAt && (
         <div className="data-badge" title="Node sizes reflect market capitalization, refreshed daily.">
           <span className="data-dot is-live" />
-          Sizes updated {formatDay(sizesAt)}
+          updated {formatDay(sizesAt)}
         </div>
       )}
 
