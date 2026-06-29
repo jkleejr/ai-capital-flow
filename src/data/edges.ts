@@ -16,6 +16,7 @@ export const EDGES: RawEdge[] = [
   { from: 'NVDA', to: 'xai',    w: 3, type: 'equity', loop: true, usd: 2,   basis: 'deal', label: '$2B (Series E)', sources: ['https://x.ai/news/series-e', 'https://www.cnbc.com/2026/01/06/elon-musk-xai-raises-20-billion-from-nvidia-cisco-investors.html'] },
   { from: 'xai',  to: 'NVDA',   w: 3, type: 'chip',   loop: true, usd: 20,  basis: 'deal', approx: true, label: 'Colossus Blackwell GPUs', sources: ['https://www.datacenterdynamics.com/en/news/musks-xai-considering-second-data-center-5bn-dell-chip-deal/'] },
   { from: 'NVDA', to: 'NBIS',   w: 3, type: 'equity', loop: true, usd: 2,   basis: 'deal', label: 'warrant (~7.7%)' },
+  { from: 'NBIS', to: 'NVDA',   w: 3, type: 'chip',   loop: true, usd: 5,   basis: 'annual', approx: true, label: 'GB300 / Vera Rubin GPUs', sources: ['https://www.cnbc.com/2026/03/16/meta-nebius-ai-infrastructure.html'] },
   { from: 'NVDA', to: 'INTC',   w: 3, type: 'equity', usd: 5, basis: 'deal', label: '~4% stake' },
 
   // ── Group 2: compute / cloud contracts ────────────────────────────
@@ -24,7 +25,8 @@ export const EDGES: RawEdge[] = [
   { from: 'openai', to: 'AVGO', w: 5, type: 'asic',    usd: 350, basis: 'deal', label: 'custom accelerators' },
   { from: 'openai', to: 'AMZN', w: 3, type: 'compute', usd: 38,  basis: 'deal', label: '7-year AWS' },
   { from: 'openai', to: 'CRWV', w: 3, type: 'compute', usd: 22,  basis: 'deal', label: 'compute capacity' },
-  { from: 'MSFT',   to: 'NBIS', w: 3, type: 'compute', usd: 18,  basis: 'deal', label: 'multiyear' },
+  { from: 'MSFT',   to: 'NBIS', w: 3, type: 'compute', usd: 19.4, basis: 'deal', label: 'multiyear ($19.4B)', sources: ['https://www.fool.com/investing/2026/03/16/this-ai-stock-has-a-194-billion-microsoft-deal-a-3/'] },
+  { from: 'META',   to: 'NBIS', w: 3, type: 'compute', usd: 27,   basis: 'deal', approx: true, label: 'up to $27B (Vera Rubin)', sources: ['https://www.cnbc.com/2026/03/16/meta-nebius-ai-infrastructure.html', 'https://www.datacenterdynamics.com/en/news/nebius-signs-3bn-deal-with-meta-says-current-available-capacity-is-sold-out-as-it-targets-25gw-by-end-of-2026/'] },
   { from: 'anthropic', to: 'AMZN',  w: 4, type: 'compute', loop: true, usd: 100, basis: 'deal', label: '$100B+ / 5GW Trainium', sources: ['https://www.anthropic.com/news/anthropic-amazon-compute'] },
   { from: 'anthropic', to: 'GOOGL', w: 3, type: 'compute', loop: true, usd: 20,  basis: 'deal', approx: true, label: 'TPU up to 1M / 1GW+', sources: ['https://www.datacenterdynamics.com/en/news/google-and-anthropic-confirm-massive-1gw-cloud-deal-with-up-to-one-million-google-tpus/'] },
   { from: 'anthropic', to: 'MSFT',  w: 4, type: 'compute', loop: true, usd: 30,  basis: 'deal', label: 'Azure $30B', sources: ['https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships'] },
@@ -44,6 +46,8 @@ export const EDGES: RawEdge[] = [
   { from: 'ORCL', to: 'NVDA', w: 3, type: 'chip', usd: 15, basis: 'annual', approx: true, label: 'GPU capex' },
   { from: 'GOOGL', to: 'AVGO', w: 3, type: 'asic', usd: 8, basis: 'annual', label: 'TPU silicon' },
   { from: 'META', to: 'AVGO', w: 2, type: 'asic', usd: 5, basis: 'annual', approx: true, label: 'custom ASIC' },
+  { from: 'DELL', to: 'NVDA', w: 3, type: 'chip', usd: 12, basis: 'annual', approx: true, label: 'GPUs for AI servers ($43B backlog)' },
+  { from: 'SMCI', to: 'NVDA', w: 2, type: 'chip', usd: 6,  basis: 'annual', approx: true, label: 'GPUs for AI servers', sources: ['https://www.supermicro.com/CaseStudies/Success_Story_xAI_Colossus_Cluster.pdf'] },
 
   // ── Group 4: chips → memory (HBM) & storage ───────────────────────
   { from: 'NVDA', to: 'HXSCL', w: 4, type: 'hbm', usd: 28, basis: 'annual', label: '>2/3 of HBM4' },
@@ -117,9 +121,13 @@ export const EDGES: RawEdge[] = [
   { from: 'MSFT', to: 'CRWV', w: 3, type: 'infra', usd: 10, basis: 'deal', approx: true, label: 'capacity' },
   { from: 'MSFT', to: 'VRT',  w: 2, type: 'infra', usd: 3,  basis: 'annual', approx: true, label: 'cooling / power' },
   { from: 'META', to: 'VRT',  w: 2, type: 'infra', usd: 3,  basis: 'annual', approx: true, label: 'cooling / power' },
+  { from: 'AMZN', to: 'VRT',  w: 2, type: 'infra', usd: 2,  basis: 'annual', approx: true, label: 'cooling / power' },
+  { from: 'GOOGL', to: 'VRT', w: 2, type: 'infra', usd: 2,  basis: 'annual', approx: true, label: 'cooling / power' },
+  { from: 'CRWV', to: 'VRT',  w: 2, type: 'infra', usd: 2,  basis: 'annual', approx: true, label: 'liquid cooling' },
   { from: 'CRWV', to: 'DELL', w: 2, type: 'infra', usd: 5,  basis: 'annual', approx: true, label: 'servers' },
   { from: 'xai',  to: 'DELL', w: 2, type: 'infra', usd: 5,  basis: 'deal', approx: true, label: 'Colossus GB200 servers', sources: ['https://siliconangle.com/2025/02/14/report-dell-close-inking-5b-ai-server-deal-xai/', 'https://www.datacenterdynamics.com/en/news/musks-xai-considering-second-data-center-5bn-dell-chip-deal/'] },
   { from: 'CRWV', to: 'SMCI', w: 2, type: 'infra', usd: 4,  basis: 'annual', approx: true, label: 'servers' },
+  { from: 'xai',  to: 'SMCI', w: 2, type: 'infra', usd: 3,  basis: 'deal', approx: true, label: 'Colossus servers (½)', sources: ['https://www.supermicro.com/CaseStudies/Success_Story_xAI_Colossus_Cluster.pdf', 'https://www.servethehome.com/inside-100000-nvidia-gpu-xai-colossus-cluster-supermicro-helped-build-for-elon-musk/'] },
 
   // ── Second-tier flows (CPU IP, custom silicon, REITs, grid gear) ──
   { from: 'NVDA', to: 'ARM',  w: 2, type: 'asic', usd: 0.5, basis: 'annual', approx: true, label: 'Grace CPU / Arm IP' },
@@ -128,6 +136,8 @@ export const EDGES: RawEdge[] = [
   { from: 'MRVL', to: 'TSM',  w: 2, type: 'foundry', usd: 2, basis: 'annual', approx: true, label: 'wafers' },
   { from: 'MSFT', to: 'DLR',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'colocation' },
   { from: 'ORCL', to: 'DLR',  w: 1, type: 'infra', usd: 1, basis: 'annual', approx: true, label: 'colocation' },
+  { from: 'GOOGL', to: 'DLR', w: 1, type: 'infra', usd: 1, basis: 'annual', approx: true, label: 'colocation' },
+  { from: 'META', to: 'DLR',  w: 1, type: 'infra', usd: 1, basis: 'annual', approx: true, label: 'colocation' },
   { from: 'VST',  to: 'GEV',  w: 2, type: 'power', usd: 2, basis: 'deal', approx: true, label: 'gas turbines' },
   { from: 'CEG',  to: 'GEV',  w: 1, type: 'power', usd: 1, basis: 'deal', approx: true, label: 'grid equipment' },
   { from: 'MSFT', to: 'ETN',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'electrical gear' },
