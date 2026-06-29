@@ -86,16 +86,22 @@ export const EDGES: RawEdge[] = [
   { from: 'SNDK', to: 'KLAC', w: 1, type: 'equipment', usd: 0.5, basis: 'annual', approx: true, label: 'process control', sources: ['https://www.trendforce.com/news/2026/06/01/news-japan-u-s-nand-alliance-steps-up-investment-as-kioxia-sandisk-capex-reportedly-rises-40-yoy/'] },
 
   // ── Group 6: data center → power (PPAs, nuclear, fuel cells) ───────
-  { from: 'AMZN', to: 'TLN', w: 4, type: 'power', usd: 18, basis: 'deal', label: '1,920 MW nuclear' },
+  { from: 'AMZN', to: 'TLN', w: 4, type: 'power', usd: 18, basis: 'deal', label: '1,920 MW nuclear', sources: ['https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon'] },
   { from: 'NVDA', to: 'VST', w: 3, type: 'power', usd: 10, basis: 'deal', label: 'KKR/Nvidia capital' },
-  { from: 'ORCL', to: 'BE',  w: 3, type: 'fuelcell', usd: 9, basis: 'deal', approx: true, label: 'up to 2.8 GW SOFC' },
+  { from: 'ORCL', to: 'BE',  w: 3, type: 'fuelcell', usd: 9, basis: 'deal', approx: true, label: 'up to 2.8 GW SOFC', sources: ['https://www.datacenterdynamics.com/en/news/bloom-energy-signs-5bn-partnership-with-brookfield-to-deploy-fuel-cell-tech-across-ai-data-centers/'] },
   { from: 'MSFT', to: 'CEG', w: 3, type: 'power', usd: 16, basis: 'deal', approx: true, label: '835 MW Crane' },
   { from: 'META', to: 'CEG', w: 2, type: 'power', usd: 20, basis: 'deal', approx: true, label: '1,121 MW Clinton' },
-  { from: 'META', to: 'OKLO', w: 2, type: 'power', usd: 5, basis: 'deal', approx: true, label: '1.2 GW SMR' },
+  { from: 'META', to: 'OKLO', w: 2, type: 'power', usd: 5, basis: 'deal', approx: true, label: '1.2 GW SMR', sources: ['https://www.utilitydive.com/news/meta-nuclear-deal-oklo-vistra-terrapower-ai-data-centers/809215/'] },
+  { from: 'META', to: 'VST',  w: 2, type: 'power', usd: 4, basis: 'deal', approx: true, label: 'nuclear (6.6 GW pact)', sources: ['https://www.utilitydive.com/news/meta-nuclear-deal-oklo-vistra-terrapower-ai-data-centers/809215/'] },
   { from: 'AMZN', to: 'VST', w: 2, type: 'power', usd: 5, basis: 'deal', approx: true, label: 'nuclear' },
+  { from: 'EQIX', to: 'OKLO', w: 2, type: 'power', usd: 0.5, basis: 'deal', approx: true, label: '500 MW SMR; $25M prepay', sources: ['https://www.datacenterdynamics.com/en/news/equinix-signs-deal-to-procure-up-to-500mw-of-nuclear-power-from-oklo-smrs-makes-25m-pre-payment/'] },
   { from: 'EQIX', to: 'BE',  w: 2, type: 'fuelcell', usd: 1, basis: 'deal', approx: true, label: '19 sites' },
   { from: 'CRWV', to: 'VST', w: 2, type: 'power', usd: 2, basis: 'annual', approx: true, label: 'power load' },
   { from: 'EQIX', to: 'CEG', w: 1, type: 'power', usd: 1, basis: 'annual', approx: true, label: 'power load' },
+  { from: 'MSFT', to: 'GEV',  w: 3, type: 'power', usd: 3, basis: 'annual', approx: true, label: 'gas turbines (Joulent JV)', sources: ['https://finance.yahoo.com/energy/articles/ge-vernova-gev-launches-microsoft-131224001.html', 'https://www.power-eng.com/gas/turbines/data-centers-drive-record-surge-in-ge-vernova-power-equipment-orders-as-turbine-slots-tighten-through-2030/'] },
+  { from: 'AMZN', to: 'GEV',  w: 2, type: 'power', usd: 2, basis: 'annual', approx: true, label: 'gas turbines', sources: ['https://www.cnbc.com/2026/06/27/ge-vernova-gas-turbines-ai-data-centers.html'] },
+  { from: 'GOOGL', to: 'GEV', w: 2, type: 'power', usd: 2, basis: 'annual', approx: true, label: 'gas turbines', sources: ['https://www.cnbc.com/2026/06/27/ge-vernova-gas-turbines-ai-data-centers.html'] },
+  { from: 'ORCL', to: 'GEV',  w: 2, type: 'power', usd: 2, basis: 'annual', approx: true, label: 'gas turbines', sources: ['https://www.cnbc.com/2026/06/27/ge-vernova-gas-turbines-ai-data-centers.html'] },
 
   // ── Group 7: chips/networking → optics ────────────────────────────
   { from: 'NVDA', to: 'FN',   w: 3, type: 'optics', usd: 1,   basis: 'annual', label: '27.6% of revenue' },
@@ -126,4 +132,6 @@ export const EDGES: RawEdge[] = [
   { from: 'CEG',  to: 'GEV',  w: 1, type: 'power', usd: 1, basis: 'deal', approx: true, label: 'grid equipment' },
   { from: 'MSFT', to: 'ETN',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'electrical gear' },
   { from: 'AMZN', to: 'ETN',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'electrical gear' },
+  { from: 'GOOGL', to: 'ETN', w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'electrical gear' },
+  { from: 'META', to: 'ETN',  w: 2, type: 'infra', usd: 2, basis: 'annual', approx: true, label: 'electrical gear' },
 ]
