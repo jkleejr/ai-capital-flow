@@ -10,7 +10,7 @@ export const NODES: RawNode[] = [
   // ── AI labs (the spark) ───────────────────────────────────────────
   { id: 'openai',    name: 'OpenAI',    sector: 'labs', valuation: 850, note: '~$25B ARR; >$1.4T vendor commitments' },
   { id: 'anthropic', name: 'Anthropic', sector: 'labs', valuation: 400, note: '~$47B ARR run-rate' },
-  { id: 'xai',       name: 'xAI',       sector: 'labs', valuation: 250, note: 'Colossus 2 buildout' },
+  { id: 'xai',       name: 'xAI',       sector: 'labs', valuation: 230, note: '$20B Series E (~$230B val); Colossus 2 buildout', sources: ['https://x.ai/news/series-e'] },
 
   // ── Hyperscalers / end-demand (core) ──────────────────────────────
   { id: 'MSFT',  name: 'Microsoft', ticker: 'MSFT',  sector: 'hyperscaler', marketCap: 3800, note: '~$190B FY26 capex; 27% of OpenAI' },

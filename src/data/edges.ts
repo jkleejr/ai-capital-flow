@@ -13,7 +13,8 @@ export const EDGES: RawEdge[] = [
   { from: 'AMD', to: 'openai',  w: 4, type: 'equity', loop: true, usd: 35,  basis: 'deal', approx: true, label: '160M-share warrant' },
   { from: 'NVDA', to: 'CRWV',   w: 4, type: 'equity', loop: true, usd: 6.3, basis: 'deal', label: '11.5% stake + backstop' },
   { from: 'CRWV', to: 'NVDA',   w: 3, type: 'chip',   loop: true, usd: 15,  basis: 'annual', approx: true, label: 'GPU purchases' },
-  { from: 'NVDA', to: 'xai',    w: 3, type: 'equity', loop: true, usd: 2,   basis: 'deal', label: 'Series E equity' },
+  { from: 'NVDA', to: 'xai',    w: 3, type: 'equity', loop: true, usd: 2,   basis: 'deal', label: '$2B (Series E)', sources: ['https://x.ai/news/series-e', 'https://www.cnbc.com/2026/01/06/elon-musk-xai-raises-20-billion-from-nvidia-cisco-investors.html'] },
+  { from: 'xai',  to: 'NVDA',   w: 3, type: 'chip',   loop: true, usd: 20,  basis: 'deal', approx: true, label: 'Colossus Blackwell GPUs', sources: ['https://www.datacenterdynamics.com/en/news/musks-xai-considering-second-data-center-5bn-dell-chip-deal/'] },
   { from: 'NVDA', to: 'NBIS',   w: 3, type: 'equity', loop: true, usd: 2,   basis: 'deal', label: 'warrant (~7.7%)' },
   { from: 'NVDA', to: 'INTC',   w: 3, type: 'equity', usd: 5, basis: 'deal', label: '~4% stake' },
 
@@ -24,13 +25,16 @@ export const EDGES: RawEdge[] = [
   { from: 'openai', to: 'AMZN', w: 3, type: 'compute', usd: 38,  basis: 'deal', label: '7-year AWS' },
   { from: 'openai', to: 'CRWV', w: 3, type: 'compute', usd: 22,  basis: 'deal', label: 'compute capacity' },
   { from: 'MSFT',   to: 'NBIS', w: 3, type: 'compute', usd: 18,  basis: 'deal', label: 'multiyear' },
-  { from: 'anthropic', to: 'AMZN', w: 3, type: 'compute', usd: 30, basis: 'deal', approx: true, label: 'Trainium / Rainier' },
-  { from: 'anthropic', to: 'GOOGL', w: 3, type: 'compute', usd: 20, basis: 'deal', approx: true, label: 'TPU 1GW+' },
+  { from: 'anthropic', to: 'AMZN',  w: 4, type: 'compute', loop: true, usd: 100, basis: 'deal', label: '$100B+ / 5GW Trainium', sources: ['https://www.anthropic.com/news/anthropic-amazon-compute'] },
+  { from: 'anthropic', to: 'GOOGL', w: 3, type: 'compute', loop: true, usd: 20,  basis: 'deal', approx: true, label: 'TPU up to 1M / 1GW+', sources: ['https://www.datacenterdynamics.com/en/news/google-and-anthropic-confirm-massive-1gw-cloud-deal-with-up-to-one-million-google-tpus/'] },
+  { from: 'anthropic', to: 'MSFT',  w: 4, type: 'compute', loop: true, usd: 30,  basis: 'deal', label: 'Azure $30B', sources: ['https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships'] },
 
   // ── Group 3: hyperscaler/investor → AI-lab equity ─────────────────
   { from: 'MSFT', to: 'openai',    w: 5, type: 'equity', loop: true, usd: 13, basis: 'deal', label: '27% stake' },
-  { from: 'AMZN', to: 'anthropic', w: 4, type: 'equity', loop: true, usd: 25, basis: 'deal', label: 'up to $25B' },
-  { from: 'GOOGL', to: 'anthropic', w: 4, type: 'equity', loop: true, usd: 40, basis: 'deal', label: 'up to $40B' },
+  { from: 'AMZN', to: 'anthropic',  w: 4, type: 'equity', loop: true, usd: 33, basis: 'deal', approx: true, label: 'up to $33B total', sources: ['https://www.aboutamazon.com/news/company-news/amazon-invests-additional-5-billion-anthropic-ai', 'https://www.anthropic.com/news/anthropic-amazon-compute'] },
+  { from: 'GOOGL', to: 'anthropic', w: 4, type: 'equity', loop: true, usd: 40, basis: 'deal', label: '14% stake; up to $40B', sources: ['https://www.cnbc.com/2026/04/24/google-to-invest-up-to-40-billion-in-anthropic-as-search-giant-spreads-its-ai-bets.html'] },
+  { from: 'MSFT', to: 'anthropic',  w: 3, type: 'equity', loop: true, usd: 5,  basis: 'deal', label: 'up to $5B', sources: ['https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships'] },
+  { from: 'NVDA', to: 'anthropic',  w: 3, type: 'equity', loop: true, usd: 10, basis: 'deal', label: 'up to $10B', sources: ['https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships'] },
 
   // ── Hyperscaler → chips (the biggest real GPU/ASIC purchases) ─────
   { from: 'MSFT', to: 'NVDA', w: 4, type: 'chip', usd: 40, basis: 'annual', approx: true, label: 'GPU capex' },
@@ -84,6 +88,7 @@ export const EDGES: RawEdge[] = [
   { from: 'MSFT', to: 'VRT',  w: 2, type: 'infra', usd: 3,  basis: 'annual', approx: true, label: 'cooling / power' },
   { from: 'META', to: 'VRT',  w: 2, type: 'infra', usd: 3,  basis: 'annual', approx: true, label: 'cooling / power' },
   { from: 'CRWV', to: 'DELL', w: 2, type: 'infra', usd: 5,  basis: 'annual', approx: true, label: 'servers' },
+  { from: 'xai',  to: 'DELL', w: 2, type: 'infra', usd: 5,  basis: 'deal', approx: true, label: 'Colossus GB200 servers', sources: ['https://siliconangle.com/2025/02/14/report-dell-close-inking-5b-ai-server-deal-xai/', 'https://www.datacenterdynamics.com/en/news/musks-xai-considering-second-data-center-5bn-dell-chip-deal/'] },
   { from: 'CRWV', to: 'SMCI', w: 2, type: 'infra', usd: 4,  basis: 'annual', approx: true, label: 'servers' },
 
   // ── Second-tier flows (CPU IP, custom silicon, REITs, grid gear) ──
