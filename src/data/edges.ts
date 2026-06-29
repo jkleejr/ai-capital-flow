@@ -69,6 +69,7 @@ export const EDGES: RawEdge[] = [
   { from: 'NVDA', to: 'TSM', w: 4, type: 'foundry', usd: 23, basis: 'annual', label: '~60% of CoWoS' },
   { from: 'AMD',  to: 'TSM', w: 2, type: 'foundry', usd: 4,  basis: 'annual', approx: true, label: '~11% CoWoS' },
   { from: 'AVGO', to: 'TSM', w: 2, type: 'foundry', usd: 5,  basis: 'annual', approx: true, label: '~15% CoWoS' },
+  { from: 'INTC', to: 'TSM', w: 3, type: 'foundry', usd: 8,  basis: 'annual', approx: true, label: '~30% wafers outsourced', sources: ['https://www.techpowerup.com/333699/intel-confirms-long-term-tsmc-partnership-about-30-of-wafers-outsourced-to-tsmc', 'https://www.tomshardware.com/tech-industry/intel-will-keep-using-tsmcs-services-even-when-18a-is-ramped-up-it-is-a-good-supplier'] },
   { from: 'TSM', to: 'ASML', w: 3, type: 'equipment', usd: 15, basis: 'annual', approx: true, label: 'EUV lithography' },
   { from: 'TSM', to: 'AMAT', w: 2, type: 'equipment', usd: 8,  basis: 'annual', approx: true, label: 'deposition/etch' },
   { from: 'TSM', to: 'LRCX', w: 2, type: 'equipment', usd: 6,  basis: 'annual', approx: true, label: 'etch/clean' },
@@ -88,6 +89,10 @@ export const EDGES: RawEdge[] = [
   { from: 'SNDK', to: 'AMAT', w: 2, type: 'equipment', usd: 2,   basis: 'annual', approx: true, label: 'NAND deposition/etch', sources: ['https://www.trendforce.com/news/2026/06/01/news-japan-u-s-nand-alliance-steps-up-investment-as-kioxia-sandisk-capex-reportedly-rises-40-yoy/'] },
   { from: 'SNDK', to: 'LRCX', w: 2, type: 'equipment', usd: 1.5, basis: 'annual', approx: true, label: 'NAND etch', sources: ['https://www.trendforce.com/news/2026/06/01/news-japan-u-s-nand-alliance-steps-up-investment-as-kioxia-sandisk-capex-reportedly-rises-40-yoy/'] },
   { from: 'SNDK', to: 'KLAC', w: 1, type: 'equipment', usd: 0.5, basis: 'annual', approx: true, label: 'process control', sources: ['https://www.trendforce.com/news/2026/06/01/news-japan-u-s-nand-alliance-steps-up-investment-as-kioxia-sandisk-capex-reportedly-rises-40-yoy/'] },
+  { from: 'INTC', to: 'ASML', w: 3, type: 'equipment', usd: 5, basis: 'annual', approx: true, label: 'High-NA EUV (lead customer)', sources: ['https://www.trendforce.com/news/2025/12/16/news-intel-completes-first-2nd-gen-high-na-euv-acceptance-testing-asml-eyes-2027-28-mass-production/', 'https://hothardware.com/news/intel-first-high-na-euv-tool'] },
+  { from: 'INTC', to: 'AMAT', w: 2, type: 'equipment', usd: 3, basis: 'annual', approx: true, label: 'deposition/etch', sources: ['https://markets.financialcontent.com/stocks/article/tokenring-2026-1-22-asml-enters-the-angstrom-era-how-intel-and-tsmcs-record-capex-is-fueling-the-high-na-euv-revolution'] },
+  { from: 'INTC', to: 'LRCX', w: 2, type: 'equipment', usd: 2, basis: 'annual', approx: true, label: 'etch/clean', sources: ['https://markets.financialcontent.com/stocks/article/tokenring-2026-1-22-asml-enters-the-angstrom-era-how-intel-and-tsmcs-record-capex-is-fueling-the-high-na-euv-revolution'] },
+  { from: 'INTC', to: 'KLAC', w: 2, type: 'equipment', usd: 1.5, basis: 'annual', approx: true, label: 'process control', sources: ['https://markets.financialcontent.com/stocks/article/tokenring-2026-1-22-asml-enters-the-angstrom-era-how-intel-and-tsmcs-record-capex-is-fueling-the-high-na-euv-revolution'] },
 
   // ── Group 6: data center → power (PPAs, nuclear, fuel cells) ───────
   { from: 'AMZN', to: 'TLN', w: 4, type: 'power', usd: 18, basis: 'deal', label: '1,920 MW nuclear', sources: ['https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon'] },
