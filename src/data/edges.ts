@@ -20,11 +20,13 @@ export const EDGES: RawEdge[] = [
   { from: 'NVDA', to: 'INTC',   w: 3, type: 'equity', usd: 5, basis: 'deal', label: '~4% stake' },
 
   // ── Group 2: compute / cloud contracts ────────────────────────────
-  { from: 'openai', to: 'MSFT', w: 5, type: 'compute', usd: 250, basis: 'deal', label: 'Azure (to 2032)' },
-  { from: 'openai', to: 'ORCL', w: 5, type: 'compute', usd: 300, basis: 'deal', label: 'Stargate' },
+  { from: 'openai', to: 'MSFT', w: 5, type: 'compute', usd: 250, basis: 'deal', label: 'Azure (to 2032)', sources: ['https://openai.com/index/next-phase-of-microsoft-partnership/'] },
+  { from: 'openai', to: 'ORCL', w: 5, type: 'compute', usd: 300, basis: 'deal', label: 'Stargate (4.5 GW)', sources: ['https://openai.com/index/stargate-advances-with-partnership-with-oracle/'] },
   { from: 'openai', to: 'AVGO', w: 5, type: 'asic',    usd: 350, basis: 'deal', label: 'custom accelerators' },
   { from: 'openai', to: 'AMZN', w: 3, type: 'compute', usd: 38,  basis: 'deal', label: '7-year AWS' },
+  { from: 'openai', to: 'GOOGL', w: 3, type: 'compute', usd: 10, basis: 'deal', approx: true, label: 'Google Cloud / TPU', sources: ['https://www.datacenterdynamics.com/en/news/openai-to-use-googles-tpus-report/'] },
   { from: 'openai', to: 'CRWV', w: 3, type: 'compute', usd: 22,  basis: 'deal', label: 'compute capacity' },
+  { from: 'META',   to: 'GOOGL', w: 2, type: 'compute', usd: 1.4, basis: 'deal', approx: true, label: 'TPU lease', sources: ['https://mlq.ai/news/meta-inks-multi-billion-deal-to-lease-googles-tpus-for-ai-development/'] },
   { from: 'MSFT',   to: 'NBIS', w: 3, type: 'compute', usd: 19.4, basis: 'deal', label: 'multiyear ($19.4B)', sources: ['https://www.fool.com/investing/2026/03/16/this-ai-stock-has-a-194-billion-microsoft-deal-a-3/'] },
   { from: 'META',   to: 'NBIS', w: 3, type: 'compute', usd: 27,   basis: 'deal', approx: true, label: 'up to $27B (Vera Rubin)', sources: ['https://www.cnbc.com/2026/03/16/meta-nebius-ai-infrastructure.html', 'https://www.datacenterdynamics.com/en/news/nebius-signs-3bn-deal-with-meta-says-current-available-capacity-is-sold-out-as-it-targets-25gw-by-end-of-2026/'] },
   { from: 'anthropic', to: 'AMZN',  w: 4, type: 'compute', loop: true, usd: 100, basis: 'deal', label: '$100B+ / 5GW Trainium', sources: ['https://www.anthropic.com/news/anthropic-amazon-compute'] },
@@ -44,6 +46,7 @@ export const EDGES: RawEdge[] = [
   { from: 'GOOGL', to: 'NVDA', w: 3, type: 'chip', usd: 15, basis: 'annual', approx: true, label: 'GPU capex' },
   { from: 'AMZN', to: 'NVDA', w: 3, type: 'chip', usd: 20, basis: 'annual', approx: true, label: 'GPU capex' },
   { from: 'ORCL', to: 'NVDA', w: 3, type: 'chip', usd: 15, basis: 'annual', approx: true, label: 'GPU capex' },
+  { from: 'ORCL', to: 'AMD', w: 3, type: 'chip', usd: 20, basis: 'deal', approx: true, label: '50k MI450 (Helios)', sources: ['https://www.oracle.com/news/announcement/ai-world-oracle-and-amd-expand-partnership-to-help-customers-achieve-next-generation-ai-scale-2025-10-14/', 'https://www.tomshardware.com/tech-industry/artificial-intelligence/amd-and-oracle-partner-to-deploy-50-000-mi450-instinct-gpus-in-new-ai-superclusters-deployment-of-expansion-set-for-2026-powered-by-amds-helios-rack'] },
   { from: 'GOOGL', to: 'AVGO', w: 3, type: 'asic', usd: 8, basis: 'annual', label: 'TPU silicon' },
   { from: 'META', to: 'AVGO', w: 2, type: 'asic', usd: 5, basis: 'annual', approx: true, label: 'custom ASIC' },
   { from: 'DELL', to: 'NVDA', w: 3, type: 'chip', usd: 12, basis: 'annual', approx: true, label: 'GPUs for AI servers ($43B backlog)' },
